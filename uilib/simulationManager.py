@@ -1,5 +1,5 @@
 from threading import Thread
-
+import threading
 from PyQt6.QtCore import QObject
 from PyQt6.QtCore import pyqtSignal
 
@@ -34,6 +34,16 @@ class SimulationManager(QObject):
     def setPreferences(self, preferences):
         self.preferences = preferences
 
+    def _simThread(self, show):
+        import cProfile, pstats
+        profiler = cProfile.Profile()
+        profiler.enable()
+        returnMe = self._simThread2(show)
+        profiler.disable()
+        stats = pstats.Stats(profiler).sort_stats('cumtime')
+        stats.dump_stats('export-data')
+        stats.print_stats()
+
     def runSimulation(self, motor, show=True): # Show sets if the results will be reported on newSimulationResult and shown in UI
         logger.log('Running simulation')
         self.motor = motor
@@ -42,7 +52,7 @@ class SimulationManager(QObject):
         self.currentSimThread = Thread(target=self._simThread, args=[show])
         self.currentSimThread.start()
 
-    def _simThread(self, show):
+    def _simThread2(self, show):
         simRes = self.motor.runSimulation(self.updateProgressBar)
         self.simulationDone.emit(simRes)
         if simRes.success and show:
