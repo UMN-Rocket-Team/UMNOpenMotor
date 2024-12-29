@@ -7,6 +7,8 @@ from .widgets.simulationAlertsDialog import SimulationAlertsDialog
 from .widgets.simulationProgressDialog import SimulationProgressDialog
 from .logger import logger
 
+import numpy as np
+from mathlib import find_perimeter
 class SimulationManager(QObject):
 
     simulationDone = pyqtSignal(object)
@@ -38,6 +40,9 @@ class SimulationManager(QObject):
         import cProfile, pstats
         profiler = cProfile.Profile()
         profiler.enable()
+        # a = np.zeros((3, 3))
+        # a[0, 0] = 1
+        # print(find_perimeter(a, 0.5))
         returnMe = self._simThread2(show)
         profiler.disable()
         stats = pstats.Stats(profiler).sort_stats('cumtime')

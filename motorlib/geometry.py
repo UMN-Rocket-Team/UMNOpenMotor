@@ -55,9 +55,11 @@ def length(contour, mapSize, tolerance=3):
 
     centerOffset = np.array([[mapSize / 2, mapSize / 2]])
     radius = np.linalg.norm(contour - centerOffset, axis=1)
-
     valid = radius < (mapSize / 2) - tolerance
+    # true_count = np.count_nonzero(valid)
+    # false_count = valid.size - true_count
 
+    # print(false_count)
     return np.sum(lengths[valid])
 
 def clean(contour, mapSize, tolerance):

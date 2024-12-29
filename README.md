@@ -58,6 +58,17 @@ $ python setup.py build_ui
 Note that if you make changes to the UI using the `.ui` forms, you must re-build using the same command.
 
 Once everything is set up, you can start openMotor by running: `python main.py`
+
+#### Cython Files:
+to speed up some more computationally expensive parts of the codebase, openMotor uses the cython programming language to compile the code to C.
+
+Because the cyphon code must be compiled separately for each system, you must build them by running:
+```
+$ python setup.py build_ext --inplace
+```
+Note that if you make changes to any of the `.pyx` files, you must re-compile the library using the same command.
+
+Once everything is set up, you can start openMotor by running: `python main.py`
 ###### Note: On some systems, Python 2 and 3 are installed simultaneously, so you may have to specify which version to run when creating the venv. After the venv has been activated, the programs `python` and `pip` are aliased to the python runtime specific for your venv, so use those (instead of `pip3` and `python3`, on e.g. Debian Linux)
 
 Data Files
